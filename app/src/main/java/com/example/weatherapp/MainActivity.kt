@@ -45,11 +45,10 @@ fun HomePage(modifier: Modifier = Modifier) {
         modifier = modifier
             .padding(16.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(text = "Olá, usuário!", fontSize = 24.sp)
-        Spacer(modifier = modifier.size(24.dp))
         Button(
             onClick = { activity?.finish() }
         ) {
