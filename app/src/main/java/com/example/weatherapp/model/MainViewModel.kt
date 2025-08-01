@@ -32,13 +32,13 @@ class MainViewModel (private val db: FBDatabase): ViewModel(),
         _user.value = user.toUser()
     }
     override fun onUserSignOut() {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
     override fun onCityAdded(city: FBCity) {
         _cities.add(city.toCity())
     }
     override fun onCityUpdated(city: FBCity) {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
     override fun onCityRemoved(city: FBCity) {
         _cities.remove(city.toCity())
