@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -25,7 +26,11 @@ import androidx.compose.ui.unit.sp
 import com.example.weatherapp.model.City
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.res.painterResource
+import coil.compose.AsyncImage
+import com.example.weatherapp.R
 import com.example.weatherapp.model.MainViewModel
+import com.example.weatherapp.ui.components.CityItem
 import com.example.weatherapp.ui.nav.Route
 
 @Composable
@@ -49,37 +54,6 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
                 viewModel.city = city
                 viewModel.page = Route.Home
             })
-        }
-    }
-}
-
-@Composable
-fun CityItem(
-    city: City,
-    onClick: () -> Unit,
-    onClose: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row (
-        modifier = modifier.fillMaxWidth().padding(8.dp).clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
-
-    ) {
-        Icon(
-            Icons.Rounded.FavoriteBorder,
-            contentDescription = ""
-        )
-        Column(modifier = modifier.weight(1f)) {
-            Text(modifier = Modifier,
-                text = city.name,
-                fontSize = 24.sp)
-            Text(modifier = Modifier,
-                text = city.weather?.desc?:"carregando...",
-                fontSize = 16.sp)
-        }
-        IconButton (onClick = onClose) {
-            Icon(Icons.Filled.Close, contentDescription = "Close")
         }
     }
 }
