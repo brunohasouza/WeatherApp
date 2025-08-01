@@ -26,6 +26,7 @@ import com.example.weatherapp.model.City
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.LaunchedEffect
 import com.example.weatherapp.model.MainViewModel
+import com.example.weatherapp.ui.nav.Route
 
 @Composable
 fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
@@ -46,6 +47,7 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
                 viewModel.remove(city)
             }, onClick = {
                 viewModel.city = city
+                viewModel.page = Route.Home
             })
         }
     }
