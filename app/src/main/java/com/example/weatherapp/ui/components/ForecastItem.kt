@@ -39,18 +39,18 @@ fun ForecastItem(
     ) {
         AsyncImage(
             model = forecast.imgUrl,
-            modifier = Modifier.size(40.dp),
+            modifier = Modifier.size(32.dp),
             error = painterResource(id = R.drawable.loading),
             contentDescription = "Imagem"
         )
         Column {
-            Text(modifier = Modifier, text = forecast.weather, fontSize = 24.sp)
+            Text(modifier = Modifier, text = forecast.weather, fontSize = 20.sp)
             Row (
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text(modifier = Modifier, text = forecast.date, fontSize = 20.sp)
-                Text(modifier = Modifier, text = "Min: $tempMin℃", fontSize = 16.sp)
-                Text(modifier = Modifier, text = "Max: $tempMax℃", fontSize = 16.sp)
+                Text(modifier = Modifier, text = forecast.date, fontSize = 16.sp)
+                Text(modifier = Modifier, text = "Min: $tempMin℃", fontSize = 12.sp)
+                Text(modifier = Modifier, text = "Max: $tempMax℃", fontSize = 12.sp)
             }
         }
     }

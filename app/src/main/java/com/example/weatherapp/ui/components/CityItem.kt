@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -36,6 +38,8 @@ fun CityItem(
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
 
     ) {
+        val icon = if (city.isMonitored) Icons.Filled.Notifications else Icons.Outlined.Notifications
+
         AsyncImage(
             model = city.weather?.imgUrl,
             modifier = Modifier.size(72.dp),
@@ -50,6 +54,7 @@ fun CityItem(
                 text = city.weather?.desc?:"carregando...",
                 fontSize = 16.sp)
         }
+        Icon(imageVector = icon, contentDescription = "Monitorada?")
         IconButton (onClick = onClose) {
             Icon(Icons.Filled.Close, contentDescription = "Close")
         }
