@@ -37,9 +37,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.api.WeatherService
 import com.example.weatherapp.db.fb.FBDatabase
+import com.example.weatherapp.db.local.LocalDatabase
 import com.example.weatherapp.model.MainViewModel
 import com.example.weatherapp.model.MainViewModelFactory
 import com.example.weatherapp.monitor.ForecastMonitor
+import com.example.weatherapp.repo.Repository
 import com.example.weatherapp.ui.components.CityDialog
 import com.example.weatherapp.ui.HomePage
 import com.example.weatherapp.ui.nav.BottomNavBar
@@ -59,11 +61,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val context = LocalContext.current
+            val uid = Firebase.auth.currentUser?.uid ?: "anonymous"
             val fbDB = remember { FBDatabase() }
+            val localDB = remember { LocalDatabase(context, "weatherdb_$uid") }
+            val repository = remember { Repository(fbDB = fbDB, localDB = localDB) }
             val wService = remember { WeatherService() }
             val monitor = remember { ForecastMonitor(context) }
             val viewModel : MainViewModel = viewModel(
-                factory = MainViewModelFactory(fbDB, wService, monitor)
+                factory = MainViewModelFactory(repository, wService, monitor)
             )
             DisposableEffect(Unit) {
                 val listener = Consumer<Intent> { intent ->
