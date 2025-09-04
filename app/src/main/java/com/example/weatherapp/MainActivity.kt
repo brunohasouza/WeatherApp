@@ -1,6 +1,7 @@
 package com.example.weatherapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -21,12 +22,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.util.Consumer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -35,6 +39,7 @@ import com.example.weatherapp.api.WeatherService
 import com.example.weatherapp.db.fb.FBDatabase
 import com.example.weatherapp.model.MainViewModel
 import com.example.weatherapp.model.MainViewModelFactory
+import com.example.weatherapp.monitor.ForecastMonitor
 import com.example.weatherapp.ui.components.CityDialog
 import com.example.weatherapp.ui.HomePage
 import com.example.weatherapp.ui.nav.BottomNavBar
@@ -53,11 +58,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val context = LocalContext.current
             val fbDB = remember { FBDatabase() }
             val wService = remember { WeatherService() }
+            val monitor = remember { ForecastMonitor(context) }
             val viewModel : MainViewModel = viewModel(
-                factory = MainViewModelFactory(fbDB, wService)
+                factory = MainViewModelFactory(fbDB, wService, monitor)
             )
+            DisposableEffect(Unit) {
+                val listener = Consumer<Intent> { intent ->
+                    val name = intent.getStringExtra("city")
+                    val city = viewModel.cities.find { it.name == name }
+                    viewModel.city = city
+                    viewModel.page = Route.Home
+                }
+                addOnNewIntentListener(listener)
+                onDispose { removeOnNewIntentListener(listener) }
+            }
             val navController = rememberNavController()
             var showDialog by remember { mutableStateOf(false) }
             val currentRoute = navController.currentBackStackEntryAsState()
