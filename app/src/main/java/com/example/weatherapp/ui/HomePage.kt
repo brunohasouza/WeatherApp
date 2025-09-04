@@ -95,7 +95,7 @@ fun HomePage(viewModel: MainViewModel) {
                 if (viewModel.city!!.forecast == null ||
                     viewModel.city!!.forecast!!.isEmpty()
                 ) {
-                    viewModel.loadForecast(viewModel.city!!.name)
+                    viewModel.loadForecast(viewModel.city!!)
                 }
             }
             if (viewModel.city?.forecast != null) {

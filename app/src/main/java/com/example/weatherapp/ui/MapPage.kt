@@ -2,6 +2,7 @@ package com.example.weatherapp.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,7 +43,7 @@ fun MapPage(viewModel: MainViewModel) {
 
     GoogleMap (
         modifier = Modifier.fillMaxSize(),
-        onMapClick = { viewModel.add(it)},
+        onMapClick = {viewModel.add(it)},
         cameraPositionState = camPosState,
         properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
         uiSettings = MapUiSettings(myLocationButtonEnabled = true)
@@ -56,7 +57,7 @@ fun MapPage(viewModel: MainViewModel) {
                 }
                 LaunchedEffect(it.weather) {
                     if (it.weather != null && it.weather!!.bitmap == null) {
-                        viewModel.loadBitmap(it.name)
+                        viewModel.loadBitmap(it)
                     }
                 }
                 val image = it.weather?.bitmap ?: getDrawable(context, R.drawable.loading)!!.toBitmap()
